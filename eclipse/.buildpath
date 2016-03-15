@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+	<buildpathentry kind="src" path="restfuls/he_shop/v1/common"/>
+	<buildpathentry kind="src" path="restfuls/he_shop/v1/platform/manager"/>
+	<buildpathentry kind="src" path="restfuls/he_shop/v1/platform/wechat"/>
+	<buildpathentry kind="src" path="unitys/component/weauth/v1"/>
+	<buildpathentry kind="src" path="unitys/service/v1/config"/>
+	<buildpathentry kind="src" path="unitys/service/v1/linker"/>
+	<buildpathentry kind="src" path="unitys/service/v1/restful"/>
+	<buildpathentry kind="src" path="unitys/service/v1/utility"/>
+	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+</buildpath>
