@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * 检测用户是否满足访问权限
+ */
 abstract class Authorize {
 	
 	/**
@@ -10,6 +14,12 @@ abstract class Authorize {
 		
 		// 获取本对象方法validates的数组
 		$validates = $this->validates ();
+		
+		// 空指针检查
+		if (is_null($validates)){
+			echo 'validates为空指针，请确保Authorize->validates方法返回一个数组！';
+			exit;
+		}
 		
 		// 遍历所有方法，如果存在某一个验证值为false，则调用回调方法，并结束本页运行
 		foreach ( $validates as $v ) {
