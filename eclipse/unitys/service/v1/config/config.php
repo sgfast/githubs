@@ -24,22 +24,22 @@ assert_options ( ASSERT_WARNING, false );
 class CMP {
 	
 	// 微信auth认证
-	public static $weauth = 'http://weauth.cmp.hesq.com.cn';
+	public static $weauth = 'http://weauth.comp.hesq.com.cn';
 	
 	// 微信支付
-	public static $wepay = 'http://wepay.cmp.hesq.com.cn';
+	public static $wepay = 'http://wepay.comp.hesq.com.cn';
 	
 	// 阿里支付
-	public static $alipay = 'http://alipay.cmp.hesq.com.cn';
+	public static $alipay = 'http://alipay.comp.hesq.com.cn';
 	
 	// 钱台
-	public static $qiantai = 'http://qiantai.cmp.hesq.com.cn';
+	public static $qiantai = 'http://qiantai.comp.hesq.com.cn';
 	
 	// 飞印
-	public static $feiyin = 'http://feiyin.cmp.hesq.com.cn';
+	public static $feiyin = 'http://feiyin.comp.hesq.com.cn';
 	
 	// 上传
-	public static $upload = 'http://upload.cmp.hesq.com.cn';
+	public static $upload = 'http://upload.comp.hesq.com.cn';
 }
 
 ?>

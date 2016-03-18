@@ -7,8 +7,12 @@ class MyController extends Controller{
 	 */
 	public function get_all(){
 		
+		// 组织options
+		$options = new Options();
+		$options->sort = array('sort'=>1);
+		
 		// 取query
-		$query = $this->createQuery([], ['sort'=>array('sort'=>1), 'projection'=>['_id'=>0]]);
+		$query = $this->createQuery([], $options->create());
 		
 		// 取值
 		$result = &Mongo::query(DB::$main, COL::$Ad_Category, $query);

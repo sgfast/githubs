@@ -8,7 +8,7 @@ const Ad_Swipe_Main = '{
 	"aid": 100,
 	"name": "",
 	"img": "",
-	"link": 0,
+	"link": "",
 	"sort": 0,
 	"show":	false
 }';

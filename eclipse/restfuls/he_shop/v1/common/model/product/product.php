@@ -38,7 +38,12 @@ const Pt_Product_Set = '{
         "sales": false,
         "recom": false,
         "new": false
-    }
+    },
+	"sales": {
+		"total": 0,
+		"month": 0,
+		"preset": 0
+	}
 }';
 
 /**

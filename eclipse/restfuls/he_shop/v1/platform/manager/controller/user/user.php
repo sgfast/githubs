@@ -7,8 +7,22 @@ class MyController extends Controller{
 	 */
 	public function get_all(){
 		
+		// 组织filter
+		$filter = array();
+		if (get('openid') != '')
+			$filter['openid'] = get('openid');
+		if (get('nickname') != '')
+			$filter['nickname'] = get('nickname');
+		if (get('mobile') != '')
+			$filter['mobile'] = get('mobile');
+		
+		// 组织options
+		$options = new Options();
+		$options->limit = get('limit');
+		$options->skip = get('limit')*(get('page')-1);
+		
 		// 取query
-		$query = $this->createQuery([], ['limit'=>get('limit'), 'skip'=>get('limit')*get('skip')]);
+		$query = $this->createQuery($filter, $options->create());
 		
 		// 取值
 		$result = &Mongo::query(DB::$main, COL::$Er_User, $query);

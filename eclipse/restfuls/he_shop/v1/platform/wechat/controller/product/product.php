@@ -7,14 +7,21 @@ class MyController extends Controller{
 	 */
 	public function get_all(){
 		
+		// 组织options
+		$options = new Options();
+		$options->limit = get('limit');
+		$options->skip = get('limit')*get('page');
+		
 		// 取query
-		$query = $this->createQuery([], ['limit'=>get('limit'), 'skip'=>get('limit')*get('skip')]);
+		$query = $this->createQuery([], $options->create());
 		
 		// 取值
 		$result = &Mongo::query(DB::$main, COL::$Pt_Product, $query);
 		
+		// 为商品加上活动标签的字段,默认为空
 		foreach ($result as $k=>$v){
-			$v->set[0]->tag->hidden = false;
+			$v->set[0]->tag->topicNmae = "";
+			$v->set[0]->tag->buyNmae = "";
 		}
 		
 		// 返回
@@ -26,9 +33,18 @@ class MyController extends Controller{
 	 */
 	public function get_id(){
 		
+		// 组织options
+		$options = new Options();
+		$options->addSlice('set', get('aid'), 1);
+		$options->projection = '_id,cbid,csid,bid,name,img,stand,paycash,content,comment';
+		
 		// 取query
-		$query = $this->createQuery(['_id'=>$this->createId(get('id'))], ['projection'=>['_id'=>1, 'cbid'=>1, 'csid'=>1, 'bid'=>1, 'name'=>1, 'img'=>1, 'stand'=>1, 'paycash'=>1, 'content'=>1, 'set'=>['$slice'=>[get('aid'), 1]], 'comment'=>1]]);
+		$query = $this->createQuery(['_id'=>$this->createId(get('id'))], $options->create());
 		$result = &Mongo::query(DB::$main, COL::$Pt_Product, $query);
+		
+		// 为商品加上活动标签的字段,默认为空
+		$result[0]->set[0]->tag->topicNmae = "";
+		$result[0]->set[0]->tag->buyNmae = "";
 		
 		// 返回
 		return $this->Data($result);
@@ -43,24 +59,31 @@ class MyController extends Controller{
 		$result = array();
 		
 		// 组织特价促销部分
-		$query_sales = $this->createQuery(
-				['set.'.get("aid").'tag.hidden'=>false, 'set.'.get("aid").'tag.sales'=>true],
-				['limit'=>8, 'projection'=>['_id'=>1, 'name'=>1, 'img'=>1, 'set'=>['$slice'=>[get('aid'), 1]]]]
-				);
+		// 组织options
+		$options = new Options();
+		$options->limit = 8;
+		$options->addSlice('set', get('aid'), 1);
+		$options->projection = '_id,name,img';
+		
+		$query_sales = $this->createQuery(['set.'.get("aid").'tag.hidden'=>false, 'set.'.get("aid").'tag.sales'=>true], $options->create());
 		$result_sales = &Mongo::query(DB::$main, COL::$Pt_Product, $query_sales);
 		
 		// 组织精品推荐部分
-		$query_recommend = $this->createQuery(
-				['set.'.get("aid").'tag.hidden'=>false, 'set.'.get("aid").'tag.recom'=>true],
-				['limit'=>8, 'projection'=>['_id'=>1, 'name'=>1, 'img'=>1, 'set'=>['$slice'=>[get('aid'), 1]]]]
-				);
+		// 组织options
+		$options = new Options();
+		$options->addSlice('set', get('aid'), 1);
+		$options->projection = '_id,name,img';
+		
+		$query_recommend = $this->createQuery(['set.'.get("aid").'tag.hidden'=>false, 'set.'.get("aid").'tag.recom'=>true], $options->create());
 		$result_recommend = &Mongo::query(DB::$main, COL::$Pt_Product, $query_recommend);
 		
 		// 组织最新商品部分
-		$query_new = $this->createQuery(
-				['set.'.get("aid").'tag.hidden'=>false, 'set.'.get("aid").'tag.new'=>true],
-				['limit'=>8, 'projection'=>['_id'=>1, 'name'=>1, 'img'=>1, 'set'=>['$slice'=>[get('aid'), 1]]]]
-				);
+		// 组织options
+		$options = new Options();
+		$options->addSlice('set', get('aid'), 1);
+		$options->projection = '_id,name,img';
+		
+		$query_new = $this->createQuery(['set.'.get("aid").'tag.hidden'=>false, 'set.'.get("aid").'tag.new'=>true], $options->create());
 		$result_new = &Mongo::query(DB::$main, COL::$Pt_Product, $query_new);
 		
 		// 组合数组
@@ -117,8 +140,12 @@ class MyController extends Controller{
 				$params['csid'] = $sid;
 		}
 		// 组织特价促销部分
-		$query = $this->createQuery($params,
-				['projection'=>['_id'=>1, 'name'=>1, 'img'=>1, 'stand'=>1, 'set'=>['$slice'=>[get('aid'), 1]], 'comment'=>1]]);
+		// 组织options
+		$options = new Options();
+		$options->addSlice('set', get('aid'), 1);
+		$options->projection = '_id,name,img,stand,comment';
+		
+		$query = $this->createQuery($params,$options->create());
 		$result = &Mongo::query(DB::$main, COL::$Pt_Product, $query);
 	
 		// 返回

@@ -7,8 +7,13 @@ class MyController extends Controller{
 	 */
 	public function get_imgs(){
 		
+		// 组织options
+		$options = new Options();
+		$options->sort = array('sort'=>1);
+		$options->projection = 'aid, link, img';
+		
 		// 取query
-		$query = $this->createQuery(["area"=>get("aid")], ['sort'=>array('sort'=>1), 'projection'=>['aid'=>1, 'link'=>1, 'img'=>1]]);
+		$query = $this->createQuery(["aid"=>get("aid")], $options->create());
 		
 		// 取值
 		$result = &Mongo::query(DB::$main, COL::$Ad_Swipe, $query);

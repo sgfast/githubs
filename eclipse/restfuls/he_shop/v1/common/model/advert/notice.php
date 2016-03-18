@@ -6,7 +6,7 @@
 const Ad_Notice_Main = '{
     "_id": "",
 	"content": "",
-	"img": "",
+	"img": ""
 }';
 
 /**
