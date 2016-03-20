@@ -16,11 +16,6 @@ const Sp_Item_Main = '{
 	"amount": 0
 }';
 
-/**
- * Sp_Item */
-$Sp_Item = new ModelClass();
-$Sp_Item->Main = Sp_Item_Main;
-
 /*
 {
 	"_id": "",

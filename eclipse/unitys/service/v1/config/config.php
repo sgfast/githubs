@@ -1,27 +1,20 @@
 <?php
 
-/**
- * 设置编码格式为utf-8
- */
+// 设置编码格式为utf-8
 header ( "Content-type: text/html; charset=utf-8" );
 
-/**
- * 打开session
- */
+// 打开session
 session_start ();
 
-/**
- * 设置断言
- */
+// 设置断言
 assert_options ( ASSERT_ACTIVE, true );
 assert_options ( ASSERT_BAIL, true );
 assert_options ( ASSERT_WARNING, false );
 
-
 /**
  * Component配置
  */
-class CMP {
+class COMPONENT_URL {
 	
 	// 微信auth认证
 	public static $weauth = 'http://weauth.comp.hesq.com.cn';
@@ -41,5 +34,23 @@ class CMP {
 	// 上传
 	public static $upload = 'http://upload.comp.hesq.com.cn';
 }
+
+/**
+ * 载入文件
+ */
+function autoLoad($dir){
+	
+	// 验证dir是否有效
+	if (empty($dir)){
+		echo '错误信息: service/config/config.php: autoLoad: dir为空串!';
+		exit;
+	}
+	
+	// 遍历导入文件，注意这里的INCLUDE_FILES，是第3层config(平台层)中定义的
+	foreach ( INCLUDE_FILES as $file ) {
+		include $dir . $file;
+	}
+}
+
 
 ?>

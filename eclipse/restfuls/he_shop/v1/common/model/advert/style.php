@@ -23,12 +23,6 @@ const Ad_Style_Main = '{
 }';
 
 /**
- * Ad_Style
- */
-$Ad_Style = new ModelClass ();
-$Ad_Style->Main = Ad_Style_Main;
-
-/**
  {
 	"_id": 	0,			// id
  	"number":	0,	// 所启用的样式id

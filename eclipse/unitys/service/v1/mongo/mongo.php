@@ -1,19 +1,23 @@
 <?php
-class Mongo {
+
+/**
+ * 用于Mongo最底层操作的纯静态方法类
+ */
+class Mongo{
 	
 	/**
 	 * 查询数据
 	 * @strDatabase 数据库连接字符串
 	 * @strNamespace 数据集合全名称
 	 * @objQuery MongoDB\Driver\Query实例对象
-	 * 
+	 *
 	 * @return MongoDB\Driver\Cursor
 	 */
 	public static function &query(string $strConnection, string $strNamespace, MongoDB\Driver\Query $objQuery) {
 		try {
 			$manager = Mongo::getMongoManager ( $strConnection );
 			$cursor = $manager->executeQuery ( $strNamespace, $objQuery );
-			foreach ($cursor as $doc){
+			foreach ( $cursor as $doc ) {
 				$result[] = $doc;
 			}
 			return $result;
@@ -29,7 +33,7 @@ class Mongo {
 	 * @strDatabase 数据库连接字符串
 	 * @strNamespace 数据集合全名称
 	 * @$objBulk MongoDB\Driver\BulkWrite实例对象
-	 * 
+	 *
 	 * @return MongoDB\Driver\WriteResult
 	 */
 	public static function write(string $strConnection, string $strNamespace, MongoDB\Driver\BulkWrite $objBulk) {

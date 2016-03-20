@@ -10,13 +10,7 @@ const Er_Receive_Main = '{
     "name": "",
     "mobile": "",
     "address": ""
-}
-';
-
-/**
- * Er_Receive */
-$Er_Receive = new ModelClass();
-$Er_Receive->Main = Er_Receive_Main;
+}';
 
 /** prototype
 {

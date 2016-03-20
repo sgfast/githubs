@@ -12,10 +12,4 @@ const Sp_Cart_Main = '{
 	"time": 0 
 }';
 
-/**
- * Sp_Cart
- */
-$Sp_Cart = new ModelClass ();
-$Sp_Cart->Main = Sp_Cart_Main;
-
 ?>

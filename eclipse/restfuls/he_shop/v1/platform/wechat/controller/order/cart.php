@@ -53,7 +53,7 @@ class MyController extends Controller{
 		$obj->time = 0;
 	
 		// 注册bulk
-		$bulk = $this->createInsert($obj);
+		$this->createInsert($obj, $bulk);
 	
 		// 插入
 		Mongo::write(DB::$main, COL::$Sp_Cart, $bulk);

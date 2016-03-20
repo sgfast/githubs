@@ -55,12 +55,6 @@ const Sp_Order_Product = '{
     "count": 0
 }';
 
-/**
- * Sp_Order */
-$Sp_Order = new ModelClass();
-$Sp_Order->Main = Sp_Order_Main;
-$Sp_Order->Product = Sp_Order_Product;
-
 /** 
 {
 	"__id": "",                                // 主键id

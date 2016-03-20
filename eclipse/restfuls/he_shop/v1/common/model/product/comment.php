@@ -12,11 +12,6 @@ const Pt_Comment_Main = '{
 	"content": ""
 }';
 
-/**
- * Pt_Comment */
-$Pt_Comment = new ModelClass();
-$Pt_Comment->Main = Pt_Comment_Main;
-
 /** prototype
 {
 	"_id": "",                 // 主键id

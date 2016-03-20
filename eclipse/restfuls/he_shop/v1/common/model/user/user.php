@@ -58,8 +58,7 @@ const Er_User_Gift = '{
 	"tid": "",
 	"name": "",
 	"status": 0
-}
-';
+}';
 
 /**
  * Feedback */
@@ -70,14 +69,7 @@ const Er_User_Feedback = '{
         "submit": 0,
         "answer": 0
     }
-}
-';
-
-/**
- * Er_User */
-$Er_User = new ModelClass();
-$Er_User->Main = Er_User_Main;
-$Er_User->Feedback = Er_User_Feedback;
+}';
 
 /** prototype
 	"_id": "",

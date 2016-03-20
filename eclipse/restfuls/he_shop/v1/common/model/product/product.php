@@ -46,12 +46,6 @@ const Pt_Product_Set = '{
 	}
 }';
 
-/**
- * Pt_Product */
-$Pt_Product = new ModelClass();
-$Pt_Product->Main = Pt_Product_Main;
-$Pt_Product->Set = Pt_Product_Set;
-
 
 /** 
 {

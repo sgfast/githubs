@@ -18,11 +18,6 @@ const Er_Coupon_Main = '{
 	}
 }';
 
-/**
- * Er_Coupon */
-$Er_Coupon = new ModelClass();
-$Er_Coupon->Main = Er_Coupon_Main;
-
 /** prototype
 {
 	"_id": "",

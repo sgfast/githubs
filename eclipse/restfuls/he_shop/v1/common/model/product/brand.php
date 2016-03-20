@@ -9,11 +9,6 @@ const Pt_Brand_Main = '{
 	"sort": 0
 }';
 
-/**
- * Pt_Brand */
-$Pt_Brand = new ModelClass();
-$Pt_Brand->Main = Pt_Brand_Main;
-
 /** prototype
 {
 	"_id": "",             // 主键id

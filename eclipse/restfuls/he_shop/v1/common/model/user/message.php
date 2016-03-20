@@ -14,11 +14,6 @@ const Er_Message_Main = '{
 	}
 }';
 
-/**
- * Er_Message */
-$Er_Message = new ModelClass();
-$Er_Message->Main = Er_Message_Main;
-
 /** prototype
 {
 	"_id": "",

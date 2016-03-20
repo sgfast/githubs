@@ -9,9 +9,4 @@ const Sp_Express_Main = '{
 	"mobile": ""
 }';
 
-/**
- * Sp_Express */
-$Sp_Express = new ModelClass();
-$Sp_Express->Main = Sp_Express_Main;
-
 ?>

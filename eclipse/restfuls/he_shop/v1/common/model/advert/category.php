@@ -14,12 +14,6 @@ const Ad_Category_Main = '{
 }';
 
 /**
- * Ad_Category
- */
-$Ad_Category = new ModelClass ();
-$Ad_Category->Main = Ad_Category_Main;
-
-/**
  {
 	"_id": "",			// id
  	"name":	"",			// 名称	
