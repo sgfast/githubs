@@ -1,7 +1,11 @@
 <?php
 
 /**
- * 使用此类前必须载入全局config，即service下的config
+ * 使用此类前必须载入全局config，即service下的config/config.php
+ * encode: 会执行打包过程，即将linker分解为字符串并使用'|'连接，并进行加密、urlencode，返回打包过后的params
+ * decode: 会执行解包过程，即将params进行urldecode、解密，然后分解为一个实际的linkerModel子类返回
+ * 		   decode方法的最后，会进行valid的验证，只要不是本系统通过new LinkerModel子类打包的linker，均不能通过验证
+ * 		       在各个实际使用此类的代码环境中，均不需要再验证valid。注意此验证不显示具体错误消息，只显示“拒绝服务”
  */
 abstract class Linker {
 	
@@ -9,83 +13,69 @@ abstract class Linker {
 	protected $encrypt;
 	
 	/**
-	 * 构造方法
+	 * 构造，实例化encrypt
 	 */
 	public function __construct() {
-		
-		// 初始化加解密对象
-		$this->encrypt = new STD3Des ( SUB::$key, SUB::$iv );
+		$this->encrypt = new Encrypt ( LINKER::$key, LINKER::$iv );
 	}
 	
 	/**
-	 * 获取字符串编码
-	 * @param object $model       	
+	 * 传入linker，返回此linker编码出的params字符串（注意：urlencode最终取回的结果）
+	 * @$linker 已经配置好的linkerModel对象
 	 */
-	public function getParams($model) {
+	public function encode($linker) {
 		
-		// 获取params参数的值
-		$params = $this->modelToParams($model);
-		
-		// 返回连接过valid之后的字符串
-		// 使用时，直接连接到component地址之后即可
-		return '?state=' . $params . '&valid=' . SUB::$valid;
+		// 打包并返回
+		$assemble = assemble ( '|', $linker );
+		return urlencode ( $this->encrypt->encrypt ( $assemble ) );
 	}
 	
 	/**
-	 * 服务端获取model
-	 * @param string $encode 编码以后的字符串
+	 * 传入params，返回此params解码出的linker对象（注意：urldecode(params)）
+	 * 此方法会调用一个"子类"的实际的解析方法，并返回一个LinkerModel子类对象
+	 * @$params 已经编码过的get参数
 	 */
-	public function getModel($params) {
+	public function decode($params) {
 		
-		// 如果valid参数验证码不正确，则直接退出，拒绝服务
-		if (get ( 'valid' ) !== SUB::$valid) {
-			echo '拒绝服务';
-			exit ();
-		}
+		// 解包
+		$params = urldecode ( $this->encrypt->decrypt ( $params ) );
+		$linker = $this->paramsToLinker ( $params );
 		
-		// 调用并返回encodeToModel，注意，这个方法必须在子类实现
-		return $this->paramsToModel ( $params );
-	}
-	
-	/**
-	 * 将某个linkermodel对象转换为字符串并返回
-	 * @param linkermodel $model
-	 * @return string 转换之后的字符串，即每个属性中间加入'|'符之后的字符串
-	 */
-	protected function modelToEncode($model){
-	
-		// 声明结果字符串
-		$result = '';
-	
-		// 连接result
-		foreach ($model as $m){
-	
-			// 如果result不为空，则加入|
-			if ($result !== ''){
-				$result .= '|';
+		// 验证linker的valid参数是否正确
+		if (! isset ( $linker->valid ) || is_null ( $linker->valid )) {
+			w_err ( '拒绝服务' );
+			if ($linker->valid !== LINKER::$valid) {
+				w_err ( '拒绝服务' );
 			}
-	
-			// 连接result实际加密字符串
-			$result .= $m;
 		}
-
-		// 返回
-		return $result;
+		
+		// 返回linker
+		return $linker;
 	}
-	
-	/**
-	 * 将model转换为字符串参数(分为两个，一为params, 一为valid)
-	 * @param object $model
-	 */
-	protected abstract function modelToParams($model);
-	
-	/**
-	 * 将encode过后的字符串序列化为Model的过程，此过程必须由子类实现
-	 * 因为每种subject的model不同，且写在其各自的类文件中
-	 * @param string $params
-	 */
-	protected abstract function paramsToModel($params);
+	protected abstract function paramsToLinker($params);
+}
 
+/**
+ * WeauthLinker
+ */
+class WeauthLinker extends Linker {
+	public function __construct() {
+		parent::__construct ();
+	}
+	protected function paramsToLinker($params) {
+		
+		// 将encode分解为数组
+		$arr = explode ( '|', $params );
+		
+		// 将解密后的值放入Model
+		$linker = new WeauthLinkerModel ();
+		$linker->appid = $arr[0];
+		$linker->screct = $arr[1];
+		$linker->url = $arr[2];
+		
+		// 返回
+		return $linker;
+	}
 }
 
 ?>

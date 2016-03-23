@@ -12,26 +12,24 @@ assert_options ( ASSERT_BAIL, true );
 assert_options ( ASSERT_WARNING, false );
 
 /**
- * Component配置
+ * 安全配置（加解密key,iv,valid），注意此类一但确定下来，就尽量不要更改
+ */
+class LINKER{
+	public static $key = 'I*3$!5jS6a@-)!#I';
+	public static $iv = '*iA9B7%*';
+	public static $valid = 'V%7&3(#@2a!@sHV';
+}
+
+/**
+ * ComponentURL配置
  */
 class COMPONENT_URL {
-	
-	// 微信auth认证
+
 	public static $weauth = 'http://weauth.comp.hesq.com.cn';
-	
-	// 微信支付
 	public static $wepay = 'http://wepay.comp.hesq.com.cn';
-	
-	// 阿里支付
 	public static $alipay = 'http://alipay.comp.hesq.com.cn';
-	
-	// 钱台
 	public static $qiantai = 'http://qiantai.comp.hesq.com.cn';
-	
-	// 飞印
 	public static $feiyin = 'http://feiyin.comp.hesq.com.cn';
-	
-	// 上传
 	public static $upload = 'http://upload.comp.hesq.com.cn';
 }
 

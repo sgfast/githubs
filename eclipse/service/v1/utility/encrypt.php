@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 3DES加解密类
+ * STD3DES加解密类
  * 例子：
  * $key = 'a25f+_4.fef)(Uf5';
  * $iv = 's#f!3=-s';
@@ -12,29 +12,29 @@
  * $rs2 = $des->decrypt ( $rs1 );
  * echo $rs2;
  */
-class STD3Des {
-
+class Encrypt {
 	private $key = "";
 	private $iv = "";
-
+	
 	/**
 	 * 构造，传递二个已经进行base64_encode的KEY与IV
-	 *
 	 * @param string $key
 	 * @param string $iv(必须为8位字符串)
 	 */
 	function __construct($key, $iv) {
+		
+		// 验证key,iv是否为空串
 		if (empty ( $key ) || empty ( $iv )) {
-			echo 'key and iv is not valid';
-			exit ();
+			w_err ( 'Encrypt: key或iv为空串' );
 		}
-		$this->key = base64_encode ($key);
-		$this->iv = base64_encode ($iv);
+		
+		// 赋值key,iv
+		$this->key = base64_encode ( $key );
+		$this->iv = base64_encode ( $iv );
 	}
-
+	
 	/**
 	 * 加密
-	 *
 	 * @param string $value 需要加密的字符串
 	 * @return 加密后的字符串
 	 */
@@ -49,10 +49,9 @@ class STD3Des {
 		mcrypt_module_close ( $td );
 		return $ret;
 	}
-
+	
 	/**
 	 * 解密
-	 *
 	 * @param string $value 需要解密的字符串
 	 * @return 解密过的字符串
 	 */
@@ -67,22 +66,17 @@ class STD3Des {
 		mcrypt_module_close ( $td );
 		return $ret;
 	}
-
+	
 	private function PaddingPKCS7($data) {
 		$block_size = mcrypt_get_block_size ( 'tripledes', 'cbc' );
 		$padding_char = $block_size - (strlen ( $data ) % $block_size);
 		$data .= str_repeat ( chr ( $padding_char ), $padding_char );
 		return $data;
 	}
-
 	private function UnPaddingPKCS7($text) {
-		$pad = ord ( $text {strlen ( $text ) - 1} );
-		if ($pad > strlen ( $text )) {
-			return false;
-		}
-		if (strspn ( $text, chr ( $pad ), strlen ( $text ) - $pad ) != $pad) {
-			return false;
-		}
+		$pad = ord ( $text{strlen ( $text ) - 1} );
+		if ($pad > strlen ( $text )) {return false;}
+		if (strspn ( $text, chr ( $pad ), strlen ( $text ) - $pad ) != $pad) {return false;}
 		return substr ( $text, 0, - 1 * $pad );
 	}
 }
