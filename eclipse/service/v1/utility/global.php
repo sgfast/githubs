@@ -73,7 +73,7 @@ function w_info($strContent) {
  * @$strContent
  */
 function w_err($strContent) {
-	echo '错误信息：', $strContent, '!';
+	throw new Exception('错误信息：', $strContent, '!');
 	exit ();
 }
 
